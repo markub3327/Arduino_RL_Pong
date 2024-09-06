@@ -13,21 +13,22 @@ enum class PlayerSide : char {
 };
 
 class Environment;
+
 class Player : public GameObject {
 public:
-    Player(Environment* env, const PlayerSide side) : GameObject(Size(3, 1)), side(side) {
-      this->Init();
-      this->env = env;
-      this->score = 0;
+    Player(Environment *env, const PlayerSide side) : GameObject(Size(3, 1)), side(side) {
+        this->Init();
+        this->env = env;
+        this->score = 0;
     }
 
-	void show(MD_MAX72XX& mx) override {
+    void show(MD_MAX72XX &mx) override {
         const auto current = mx.getColumn(this->position.y);
         mx.setColumn(this->position.y, ((0x7 << this->position.x) | current));
     }
 
     void Init() override {
-        this->position = Point {
+        this->position = Point{
             .x = static_cast<int>(random(0, 6)),
             .y = this->side == PlayerSide::LEFT ? 0 : 7
         };
@@ -52,8 +53,9 @@ public:
     void setReward(int r) {
         this->reward = r;
     }
+
 protected:
-    Environment* env;
+    Environment *env;
     PlayerSide side;
     int score;
     int reward;

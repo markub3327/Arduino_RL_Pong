@@ -15,10 +15,11 @@
 #include <MD_MAX72xx.h>
 
 int freeRam() {
-    extern int __heap_start,*__brkval;
+    extern int __heap_start, *__brkval;
     int v;
-    return (int)&v - (__brkval == 0
-      ? (int)&__heap_start : (int) __brkval);
+    return (int) &v - (__brkval == 0
+                           ? (int) &__heap_start
+                           : (int) __brkval);
 }
 
 void display_freeram() {
@@ -40,7 +41,7 @@ public:
         mx.clear();
 
         // store the current state
-        State state {
+        State state{
             .player_x = this->playerB.getX(),
             .ball_x = this->ball->getX(),
             .ball_y = this->ball->getY(),
@@ -52,7 +53,7 @@ public:
         update(ball, state);
 
         // store the next state
-        State next_state {
+        State next_state{
             .player_x = this->playerB.getX(),
             .ball_x = this->ball->getX(),
             .ball_y = this->ball->getY(),
@@ -62,12 +63,12 @@ public:
         this->playerB.updatePolicy(state, next_state);
     }
 
-    void update(GameObject *obj, const State& s) {
+    void update(GameObject *obj, const State &s) {
         obj->show(mx);
         obj->update(s);
     }
 
-    void playerEnd(Player& p) {
+    void playerEnd(Player &p) {
         Serial.print("Player ");
         Serial.print(p.getSide() == PlayerSide::LEFT ? "Left: " : "Right: ");
         Serial.println(p.getScore());
@@ -97,9 +98,10 @@ public:
 
     RandomPlayer playerA;
     QPlayer playerB;
+
 private:
     MD_MAX72XX mx = MD_MAX72XX(MD_MAX72XX::GENERIC_HW, 7, 1);
-    Ball* ball;
+    Ball *ball;
     int rounds = 0;
 };
 
@@ -118,8 +120,7 @@ inline void Ball::playerCollider() {
 
     // check if the goal has been scored
     if (this->env->playerA.getY() == this->position.y &&
-        (this->position.x < this->env->playerA.getX() || this->position.x > (this->env->playerA.getX() + 2)))
-    {
+        (this->position.x < this->env->playerA.getX() || this->position.x > (this->env->playerA.getX() + 2))) {
         this->env->playerA.setReward(-50);
         this->env->playerB.setReward(50);
         this->env->playerB.Goal();
@@ -128,8 +129,7 @@ inline void Ball::playerCollider() {
     }
 
     if (this->env->playerB.getY() == this->position.y &&
-        (this->position.x < this->env->playerB.getX() || this->position.x > (this->env->playerB.getX() + 2)))
-    {
+        (this->position.x < this->env->playerB.getX() || this->position.x > (this->env->playerB.getX() + 2))) {
         this->env->playerA.Goal();
         this->env->playerA.setReward(50);
         this->env->playerB.setReward(-50);

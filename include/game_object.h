@@ -19,11 +19,17 @@ class GameObject {
 protected:
     Point position;
     Size size;
+
 public:
-    GameObject(const Size size) : size(size) {};
+    GameObject(const Size size) : size(size) {
+    };
+
     virtual void Init() = 0;
-    virtual void update(const State& s) = 0;
-    virtual void show(MD_MAX72XX& mx) = 0;
+
+    virtual void update(const State &s) = 0;
+
+    virtual void show(MD_MAX72XX &mx) = 0;
+
     virtual ~GameObject() = default;
 
     int getX() const { return this->position.x; }

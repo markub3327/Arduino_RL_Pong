@@ -11,7 +11,9 @@ struct Point {
 
 struct Size {
     int width, height;
-    Size(int width, int height) : width(width), height(height) {}
+
+    Size(int width, int height) : width(width), height(height) {
+    }
 };
 
 #endif //POINT_H

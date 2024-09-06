@@ -8,13 +8,16 @@
 #include "player.h"
 
 class Environment;
+
 class HumanPlayer : public Player {
 public:
-    HumanPlayer(Environment *env, const int pin, const PlayerSide side) : Player(env, side), pin(pin) {}
+    HumanPlayer(Environment *env, const int pin, const PlayerSide side) : Player(env, side), pin(pin) {
+    }
 
-    void update(const State& s) override {
+    void update(const State &s) override {
         this->position.x = readJoystick();
     }
+
 private:
     int readJoystick() const {
         int buff[6] = {};
