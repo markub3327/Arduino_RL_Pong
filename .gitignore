@@ -1,3 +1,8 @@
 .pio
 
 .idea
+include/README
+
+lib/README
+
+test/README

@@ -30,9 +30,9 @@ public:
     void Init() override {
         this->position = Point{
             .x = static_cast<int>(random(0, 6)),
-            .y = this->side == PlayerSide::LEFT ? 0 : 7
+            .y = this->side == PlayerSide::LEFT ? 7 : 0
         };
-        // this->score = 0;
+        //this->score = 0;
         this->reward = 0;
     }
 

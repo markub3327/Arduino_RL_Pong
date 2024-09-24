@@ -14,7 +14,7 @@ const PROGMEM float velocity = 1.5f;
 
 class Ball : public GameObject, Collision {
 public:
-    Ball(Environment *env) : GameObject(Size(0, 1)) {
+    Ball(Environment *env) : GameObject(Size(1, 1)) {
         this->Init();
         this->env = env;
     }
@@ -57,31 +57,25 @@ private:
     double alpha;
 
     void onCollision(GameObject *other) override {
-        this->alpha = (this->position.x - (other->getX() + other->getWidth() / 2)) * (-M_PI_4);
-        if (reinterpret_cast<Player *>(other)->getSide() == PlayerSide::LEFT)
+        this->alpha = constrain(this->position.x - (other->getX() + (other->getWidth() >> 1)), -1, 1) * (-M_PI_4);
+        if (reinterpret_cast<Player *>(other)->getSide() == PlayerSide::RIGHT)
             this->alpha += M_PI_2;
         else
             this->alpha += (M_PI + M_PI_2); // 270 degrees
 
-        //        Serial.println("Collision");
+        // Serial.println("Collision");
         //
-        //        Serial.print("X: ");
-        //        Serial.print(this->position.x);
-        //        Serial.print(" Y: ");
-        //        Serial.println(this->position.y);
-        //        Serial.print("Width: ");
-        //        Serial.print(this->size.width);
-        //        Serial.print(" Height: ");
-        //        Serial.println(this->size.height);
+        // Serial.print("Ball - X: ");
+        // Serial.print(this->position.x);
+        // Serial.print(" Y: ");
+        // Serial.print(this->position.y);
+        // Serial.print(" Alpha: ");
+        // Serial.println(this->alpha);
         //
-        //        Serial.print("X: ");
-        //        Serial.print(other->getX());
-        //        Serial.print(" Y: ");
-        //        Serial.println(other->getY());
-        //        Serial.print("Width: ");
-        //        Serial.print(other->getWidth());
-        //        Serial.print(" Height: ");
-        //        Serial.println(other->getHeight());
+        // Serial.print("Player - X: ");
+        // Serial.print(other->getX());
+        // Serial.print(" Y: ");
+        // Serial.println(other->getY());
     }
 
     void playerCollider();

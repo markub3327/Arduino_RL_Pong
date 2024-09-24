@@ -20,9 +20,13 @@ const PROGMEM int   EPSILON       =    20;*/
 const PROGMEM float GAMMA         = 0.98f;
 const PROGMEM int   EPSILON       =    30;*/
 
+/*const PROGMEM float LEARNING_RATE = 0.40f;
+const PROGMEM float GAMMA = 0.90f;
+const PROGMEM int EPSILON = 5;*/
+
 const PROGMEM float LEARNING_RATE = 0.40f;
 const PROGMEM float GAMMA = 0.90f;
-const PROGMEM int EPSILON = 5;
+const PROGMEM int EPSILON = 20;
 
 /*const PROGMEM float LEARNING_RATE = 0.30f;
 const PROGMEM float GAMMA         = 0.97f;
@@ -127,15 +131,17 @@ public:
         }*/
     }
 
+    char Q_table[8][8][6][3] = {}; // init with zeros
+
 private:
-    int getPolicy(const State &s) {
-        int max = 0;
+    char getPolicy(const State &s) {
+        char max = 0;
 
         // Epsilon-greedy policy
         if (random(0, 100) < EPSILON) {
-            max = static_cast<int>(random(0, 3));
+            max = static_cast<char>(random(0, 3));
         } else {
-            for (int a = 1; a < 3; a++) {
+            for (char a = 1; a < 3; a++) {
                 if (Q_table[s.ball_x][s.ball_y][s.player_x][a] > Q_table[s.ball_x][s.ball_y][s.player_x][max]) {
                     max = a;
                 }
@@ -145,8 +151,7 @@ private:
         return max;
     }
 
-    char Q_table[8][8][6][3] = {}; // init with zeros
-    int action;
+    char action;
 };
 
 #endif //Q_PLAYER_H
